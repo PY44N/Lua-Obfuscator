@@ -4,6 +4,8 @@ local Script = InFile:read'*a'
 
 InFile:close()
 
+os.remove('luac.out')
+
 local RerFile = io.open('Rerubi.min.lua', 'rb')
 
 local Rerubi = RerFile:read'*a'
