@@ -1,0 +1,39 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v2.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v2.0": {
+      "IronBrew2 CLI/1.0.0": {
+        "dependencies": {
+          "IronBrew2": "1.0.0.0"
+        },
+        "runtime": {
+          "IronBrew2 CLI.dll": {}
+        }
+      },
+      "IronBrew2/1.0.0.0": {
+        "runtime": {
+          "IronBrew2.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "IronBrew2 CLI/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "IronBrew2/1.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
