@@ -1,2 +1,0 @@
-node cli.js
-pause
