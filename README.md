@@ -20,4 +20,4 @@ Input
 print('Lua Obfuscator by Pyan')
 ```
 
-[Output](https://ghostbin.co/paste/hcr7j)
+[Output](https://paste.sh/2dGGJ7Or#qWWgDe1BEA7ghm5XxhGZ7aME)
