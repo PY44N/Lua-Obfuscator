@@ -15,7 +15,7 @@ RerFile:close()
 
 Script = Script:gsub(".", function(bb) return "\\" .. bb:byte() end) or Script .. "\""
 
-Script = Rerubi .. ' aL("'..Script..'")()'
+Script = Rerubi .. ' aV("'..Script..'")()'
 
 local OutFile = io.open('Out.lua', 'w+')
 
