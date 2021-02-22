@@ -2,7 +2,7 @@
 
 A Lua Obfuscator made for Roblox, but should work on most Lua applications
 
-## Instalation
+## Installation
 
 - Install [Lua For Windows](https://github.com/rjpcomputing/luaforwindows/releases/)
 
