@@ -1,1 +1,0 @@
-print('Lua Obfuscator by Pyan')
