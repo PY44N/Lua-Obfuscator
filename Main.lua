@@ -15,11 +15,11 @@ RerFile:close()
 
 Script = Script:gsub(".", function(bb) return "\\" .. bb:byte() end) or Script .. "\""
 
-Script = Rerubi .. ' aV("'..Script..'")()'
+Script = Rerubi .. '("'..Script..'")()'
 
 local OutFile = io.open('Out.lua', 'w+')
 
-OutFile:write('--[[ \n  Obfuscated with Narfuscator \n]] \n' .. Script)
+OutFile:write(Script)
 
 OutFile:close()
 
