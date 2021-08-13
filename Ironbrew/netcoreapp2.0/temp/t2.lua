@@ -9,7 +9,7 @@ local Setmetatable = setmetatable;
 local Select       = select;
 
 local Unpack = unpack;
-local ToNumber = tonumber;local function decompress(b)local c,d,e="","",{}local f=256;local g={}for h=0,f-1 do g[h]=Char(h)end;local i=1;local function k()local l=ToNumber(Sub(b, i,i),36)i=i+1;local m=ToNumber(Sub(b, i,i+l-1),36)i=i+l;return m end;c=Char(k())e[1]=c;while i<#b do local n=k()if g[n]then d=g[n]else d=c..Sub(c, 1,1)end;g[f]=c..Sub(d, 1,1)e[#e+1],c,f=d,d,f+1 end;return table.concat(e)end;local ByteString=decompress('22P27422P22R27522R22S2751H1J181F1L22R23B2752191K1021T21A13171K1I12101L1E1J21T131O21T21D1O101F22T27526K22X24124E23W22X27426G23528A23T23527426L23528J23V28J22P26L28D22P23Y28S22P');
+local ToNumber = tonumber;local function decompress(b)local c,d,e="","",{}local f=256;local g={}for h=0,f-1 do g[h]=Char(h)end;local i=1;local function k()local l=ToNumber(Sub(b, i,i),36)i=i+1;local m=ToNumber(Sub(b, i,i+l-1),36)i=i+l;return m end;c=Char(k())e[1]=c;while i<#b do local n=k()if g[n]then d=g[n]else d=c..Sub(c, 1,1)end;g[f]=c..Sub(d, 1,1)e[#e+1],c,f=d,d,f+1 end;return table.concat(e)end;local ByteString=decompress('21V21Z27524G22725325426H22727524K22F27926G22F27524H22F27I26K27I21Z24H27C21Z26M27R27527V21X27V21Z21U27V21J21H21A21521F21Z22927V1B21E21222V182111X21E21G21021221F21421H22V21121Q22V1N21Q212215');
 
 local BitXOR = bit and bit.bxor or function(a,b)
     local p,c=1,0
@@ -44,17 +44,17 @@ local Pos = 1;
 local function gBits32()
     local W, X, Y, Z = Byte(ByteString, Pos, Pos + 3);
 
-	W = BitXOR(W, 97)
-	X = BitXOR(X, 97)
-	Y = BitXOR(Y, 97)
-	Z = BitXOR(Z, 97)
+	W = BitXOR(W, 71)
+	X = BitXOR(X, 71)
+	Y = BitXOR(Y, 71)
+	Z = BitXOR(Z, 71)
 
     Pos	= Pos + 4;
     return (Z*16777216) + (Y*65536) + (X*256) + W;
 end;
 
 local function gBits8()
-    local F = BitXOR(Byte(ByteString, Pos, Pos), 97);
+    local F = BitXOR(Byte(ByteString, Pos, Pos), 71);
     Pos = Pos + 1;
     return F;
 end;
@@ -95,7 +95,7 @@ local function gString(Len)
 
 	local FStr = {}
 	for Idx = 1, #Str do
-		FStr[Idx] = Char(BitXOR(Byte(Sub(Str, Idx, Idx)), 97))
+		FStr[Idx] = Char(BitXOR(Byte(Sub(Str, Idx, Idx)), 71))
 	end
 
     return Concat(FStr);
@@ -115,25 +115,9 @@ local function Deserialize()
 		Functions,
 		nil,
 		Lines
-	};for Idx=1,gBits32() do Functions[Idx-1]=Deserialize();end;
-								local ConstCount = gBits32()
-    							local Consts = {0,0};
-
-								for Idx=1,ConstCount do 
-									local Type=gBits8();
-									local Cons;
-	
-									if(Type==3) then Cons=(gBits8() ~= 0);
-									elseif(Type==1) then Cons = gFloat();
-									elseif(Type==2) then Cons=gString();
-									end;
-									
-									Consts[Idx]=Cons;
-								end;
-								Chunk[2] = Consts
-								for Idx=1,gBits32() do 
-									local Data1=BitXOR(gBits32(),140);
-									local Data2=BitXOR(gBits32(),236); 
+	};for Idx=1,gBits32() do 
+									local Data1=BitXOR(gBits32(),230);
+									local Data2=BitXOR(gBits32(),172); 
 
 									local Type=gBit(Data1,1,2);
 									local Opco=gBit(Data2,1,11);
@@ -153,7 +137,23 @@ local function Deserialize()
 									elseif(Type==3) then Inst[3]=gBit(Data2,12,32)-1048575;Inst[5]=gBit(Data1,21,29);
 									end;
 									
-									Instrs[Idx]=Inst;end;Chunk[4] = gBits8();return Chunk;end;
+									Instrs[Idx]=Inst;end;for Idx=1,gBits32() do Functions[Idx-1]=Deserialize();end;Chunk[4] = gBits8();
+								local ConstCount = gBits32()
+    							local Consts = {0,0};
+
+								for Idx=1,ConstCount do 
+									local Type=gBits8();
+									local Cons;
+	
+									if(Type==1) then Cons=(gBits8() ~= 0);
+									elseif(Type==3) then Cons = gFloat();
+									elseif(Type==0) then Cons=gString();
+									end;
+									
+									Consts[Idx]=Cons;
+								end;
+								Chunk[2] = Consts
+								return Chunk;end;
 local function Wrap(Chunk, Upvalues, Env)
 	local Instr  = Chunk[1];
 	local Const  = Chunk[2];
@@ -193,7 +193,7 @@ local function Wrap(Chunk, Upvalues, Env)
 
 		while true do
 			Inst		= Instr[InstrPoint];
-			Enum		= Inst[1];if Enum <= 3 then if Enum <= 1 then if Enum == 0 then local A=Inst[2];local Args={};local Edx=0;local Limit=A+Inst[3]-1;for Idx=A+1,Limit do Edx=Edx+1;Args[Edx]=Stk[Idx];end;Stk[A](Unpack(Args,1,Limit-A));Top=A;else Stk[Inst[2]]=Env[Const[Inst[3]]];end; elseif Enum == 2 then do return end;else do return end;end; elseif Enum <= 5 then if Enum == 4 then Stk[Inst[2]]=Const[Inst[3]];else Stk[Inst[2]]=Env[Const[Inst[3]]];end; elseif Enum > 6 then Stk[Inst[2]]=Const[Inst[3]];else local A=Inst[2];local Args={};local Edx=0;local Limit=A+Inst[3]-1;for Idx=A+1,Limit do Edx=Edx+1;Args[Edx]=Stk[Idx];end;Stk[A](Unpack(Args,1,Limit-A));Top=A;end;
+			Enum		= Inst[1];if Enum <= 3 then if Enum <= 1 then if Enum > 0 then local A=Inst[2];local Args={};local Edx=0;local Limit=A+Inst[3]-1;for Idx=A+1,Limit do Edx=Edx+1;Args[Edx]=Stk[Idx];end;Stk[A](Unpack(Args,1,Limit-A));Top=A;else Stk[Inst[2]]=Const[Inst[3]];end; elseif Enum > 2 then Stk[Inst[2]]=Const[Inst[3]];else Stk[Inst[2]]=Env[Const[Inst[3]]];end; elseif Enum <= 5 then if Enum > 4 then do return end;else do return end;end; elseif Enum > 6 then local A=Inst[2];local Args={};local Edx=0;local Limit=A+Inst[3]-1;for Idx=A+1,Limit do Edx=Edx+1;Args[Edx]=Stk[Idx];end;Stk[A](Unpack(Args,1,Limit-A));Top=A;else Stk[Inst[2]]=Env[Const[Inst[3]]];end;
 			InstrPoint	= InstrPoint + 1;
 		end;
     end;
