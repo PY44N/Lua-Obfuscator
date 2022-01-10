@@ -1,1 +1,1 @@
-print("Lua Obfuscator by Pyan")
+print("does this works?")
