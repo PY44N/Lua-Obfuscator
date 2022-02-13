@@ -2,7 +2,7 @@
 
 A Lua Obfuscator made for Roblox, but should work on most Lua applications
 
-## Notice
+# **Notice**
 This version of the obfuscator has been discontinued. A new version will be coming soon.
 
 ## Installation
