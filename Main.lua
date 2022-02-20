@@ -13,9 +13,13 @@ local Rerubi = RerFile:read'*a'
 
 RerFile:close()
 
-Script = Script:gsub(".", function(bb) return "\\" .. bb:byte() end) or Script .. "\""
+local bytes = {}
 
-Script = Rerubi .. '("'..Script..'")()'
+Script:gsub(".", function(bb) table.insert(bytes, string.byte(bb)) end)
+
+Script = table.concat(bytes, ",")
+
+Script = Rerubi .. '({'..Script..'})()'
 
 local OutFile = io.open('Out.lua', 'w+')
 
