@@ -20,7 +20,7 @@ A Lua Obfuscator made for Roblox, but should work on most Lua applications
 Input
 
 ```lua
-print('Lua Obfuscator by Pyan')
+print('Lua Obfuscator By Alex')
 ```
 
 [Output](https://github.com/PY44N/Lua-Obfuscator/raw/master/Example.lua)
