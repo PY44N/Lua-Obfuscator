@@ -1,6 +1,6 @@
 # Lua-Obfuscator
 
-A Lua Obfuscator made for Roblox, but should work on most Lua applications
+A Lua Obfuscator made for Roblox, but should work on most Lua applications. Uses [Ironbrew](https://github.com/Trollicus/ironbrew-2) under the hood.
 
 # **Notice**
 ### **This version of the obfuscator has been discontinued. A new version will be coming eventually.**
